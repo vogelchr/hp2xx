@@ -34,12 +34,13 @@ FILE *fd;
 		png_destroy_write_struct(&png_ptr, (png_infopp) NULL);
 		return;
 	}
-
+#if 0
 	/* set up error handlimg for libpng */
 	if (setjmp(png_ptr->jmpbuf)) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		return;
 	}
+#endif
 
 	png_data_freer(png_ptr, info_ptr, PNG_DESTROY_WILL_FREE_DATA, -1);
 	/* initialize I/O */
@@ -51,11 +52,11 @@ FILE *fd;
 		       PNG_FILTER_PAETH);
 
 	/* set the zlib compression level */
-	png_set_compression_level(png_ptr, Z_BEST_COMPRESSION);
+	png_set_compression_level(png_ptr, PNG_Z_DEFAULT_COMPRESSION);
 
 	/* set other zlib parameters */
 	png_set_compression_mem_level(png_ptr, 8);
-	png_set_compression_strategy(png_ptr, Z_DEFAULT_STRATEGY);
+	png_set_compression_strategy(png_ptr, PNG_Z_DEFAULT_STRATEGY);
 	png_set_compression_window_bits(png_ptr, 15);
 	png_set_compression_method(png_ptr, 8);
 	png_set_compression_buffer_size(png_ptr, 8192);
